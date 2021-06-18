@@ -1,4 +1,4 @@
 library(testthat)
-library(PackageTemplate)
+library(sentry)
 
-test_check("PackageTemplate")
+test_check("sentry")

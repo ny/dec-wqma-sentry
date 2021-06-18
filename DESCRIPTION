@@ -1,12 +1,13 @@
-Package: PackageTemplate
-Title: What the Package Does (One Line, Title Case)
+Package: Sentry
+Title: Data Verification
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Zachary",
            family = "Smith",
            role = c("aut", "cre"),
            email = "zachary.smith2@dec.ny.gov")
-Description: What the package does (one paragraph).
+Description: This package provides a toolset to verify that data has been 
+provided in an expected format and conforms to expected standards. 
 License: file LICENSE
 Encoding: UTF-8
 Language: en-US
@@ -18,5 +19,11 @@ Suggests:
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-URL: https://github.com/BWAM/PackageTemplate
-BugReports: https://github.com/BWAM/PackageTemplate/issues
+URL: https://github.com/BWAM/sentry
+BugReports: https://github.com/BWAM/sentry/issues
+Imports: 
+    rmarkdown (>= 2.8),
+    pointblank (>= 0.7.0),
+    zipper (>= 0.0.6)
+Remotes: 
+    BWAM/zipper
