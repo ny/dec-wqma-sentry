@@ -1,0 +1,12 @@
+---
+title: "distinct"
+author: "Zachary M. Smith"
+date: "6/18/2021"
+output: html_document
+---
+
+__Goal:__ Identify if any rows in the provided data table are duplicated.
+/  
+```{r distinct-rows}
+agent_drows
+```
