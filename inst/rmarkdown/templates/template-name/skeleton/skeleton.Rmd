@@ -13,7 +13,7 @@ params:
 # the "Summary" Tab.
 
 # R Setup
-source(file = "setup.R", local = TRUE)
+rmd_setup()
 # Extract ALS zip-file contents
 source(file = "zip_contents.R", local = TRUE)
 # Check that there are no duplicate rows
