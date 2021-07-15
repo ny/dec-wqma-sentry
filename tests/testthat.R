@@ -1,4 +1,4 @@
 library(testthat)
-library(sentry)
+library(Sentry)
 
-test_check("sentry")
+test_check("Sentry")
