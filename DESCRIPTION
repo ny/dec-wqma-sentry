@@ -26,7 +26,10 @@ Imports:
     zipper (>= 0.0.6),
     jsonlite,
     tools,
-    knitr
+    knitr,
+    magrittr
 Remotes: 
     BWAM/zipper
 Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)

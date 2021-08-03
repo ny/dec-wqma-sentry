@@ -1,0 +1,59 @@
+---
+title: "Example Workflow"
+author: "Zachary M. Smith"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r env-prep}
+library(Sentry)
+```
+
+```{r gen-paths}
+edd_path <- file.path(
+  "C:",
+  "Users",
+  "zmsmith.000",
+  "New York State Office of Information Technology Services",
+  "BWAM - 2021",
+  "lab_reports"
+)
+
+out_path <- file.path(
+  "C:",
+  "Users",
+  "zmsmith.000",
+  "New York State Office of Information Technology Services",
+  "Desktop",
+  "als"
+)
+
+out_path <- "C:/Users/zmsmith.000/OneDrive - New York State Office of Information Technology Services/Desktop/als"
+```
+
+```{r folder-paths}
+folder_paths <- list.dirs(edd_path)[-1]
+```
+
+
+```{r workflow-loop}
+for (i in folder_paths) {
+  edds <- list.files(
+  path = i,
+  pattern = "zip",
+  full.names = TRUE)
+  
+  for (j in edds) {
+    gen_val_report(
+    x = read_als(zip_path = j),
+    output_dir = i,
+    filename = stringr::str_sub(j, -12, -5)
+  )
+
+  }
+  
+}
+
+
+```
+

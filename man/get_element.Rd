@@ -4,12 +4,14 @@
 \alias{get_element}
 \title{Get a List Element}
 \usage{
-get_element(.list, .pattern)
+get_element(list, pattern, clean_names = FALSE)
 }
 \arguments{
-\item{.list}{a named list object.}
+\item{list}{a named list object.}
 
-\item{.pattern}{a regular expression to be matched to a character string.}
+\item{pattern}{a regular expression to be matched to a character string.}
+
+\item{clean_names}{a logical indicating if column names should be cleaned.}
 }
 \value{
 a single element of a list.
@@ -18,7 +20,7 @@ a single element of a list.
 Get a List Element
 }
 \examples{
-get_element(.list = list(first_element = 1:3,
+get_element(list = list(first_element = 1:3,
  second_element = 4:6),
- .pattern = "second")
+ pattern = "second")
 }

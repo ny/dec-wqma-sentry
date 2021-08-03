@@ -24,7 +24,7 @@ test_that("read_als", {
     expect_equal(
       names(i[["result"]]),
       c(
-        "#sys_sample_code",
+        "sys_sample_code",
         "lab_anl_method_name",
         "analysis_date",
         "fraction",
@@ -53,12 +53,12 @@ test_that("read_als", {
         "final_volume_unit",
         "cas_rn",
         "chemical_name",
-        "Result_value",
-        "Result_error_delta",
+        "result_value",
+        "result_error_delta",
         "result_type_code",
         "reportable_result",
         "detect_flag",
-        "Lab_qualifiers",
+        "lab_qualifiers",
         "validator_qualifiers",
         "interpreted_qualifiers",
         "validated_yn",
@@ -100,7 +100,7 @@ test_that("read_als", {
     expect_equal(
       names(i[["batch"]]),
       c(
-        "#sys_sample_code",
+        "sys_sample_code",
         "lab_anl_method_name",
         "analysis_date",
         "fraction",
@@ -118,8 +118,8 @@ test_that("read_als", {
     expect_equal(
       names(i[["sample"]]),
       c(
-        "#data_provider",
-        "#sys_sample_code",
+        "data_provider",
+        "sys_sample_code",
         "sample_name",
         "sample_matrix_code",
         "sample_type_code",
