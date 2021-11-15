@@ -1,0 +1,172 @@
+---
+title: "`r params$filename`"
+date: "`r Sys.Date()`"
+output: html_document
+params:
+  validated: !r Sentry::als_validated
+  filepath: tempdir()
+  filename: "R2004299"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  results = 'asis'
+)
+library(kableExtra)
+library(pointblank)
+library(Sentry)
+
+# Use `validate_rmd()` here to set options for the
+# pointblank validation workflow within R Markdown documents
+```
+
+```{r, message=FALSE}
+validated <- params$validated
+```
+
+```{r}
+# x <- validated$result
+# section <- "names"
+val_status <- function(x, section) {
+  if (!is.null(x[[section]])) {
+    ifelse(
+      test = pointblank::all_passed(x[[section]]),
+      yes = "Passed",
+      no = "Failed"
+    )
+  } else {
+    "Not Evaluated"
+  }
+}
+
+val_status_color <- function(x) {
+  vapply(
+    X = x,
+    FUN = function(i) {
+      switch(
+        EXPR = i,
+        "Passed" = "#0072B2",
+        "Failed" = "#E69F00",
+        "Not Evaluated" = "#999999",
+        stop("Unexpected Validation Status")
+      )
+    },
+    FUN.VALUE = NA_character_
+  )
+}
+  
+
+status <- data.frame(
+  # Section = c(rep("Result", 3), rep("Batch", 3), rep("Sample", 3)),
+  Section = rep(c("Column Names", "Column Types", "Expected Values"), 3),
+  "Validation Status" = c(
+    val_status(validated$result, "names"),
+    val_status(validated$result, "classes"),
+    val_status(validated$result, "expected_values"),
+    val_status(validated$batch, "names"),
+    val_status(validated$batch, "classes"),
+    val_status(validated$batch, "expected_values"),
+    val_status(validated$sample, "names"),
+    val_status(validated$sample, "classes"),
+    val_status(validated$sample, "expected_values")
+  ),
+  check.names = FALSE
+)
+
+status %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_styling(., #bootstrap_options = "striped",
+                            font_size = 12) %>%
+  # kable_paper(full_width = FALSE) %>%
+  column_spec(1, bold = TRUE) %>%
+  column_spec(2,
+              color = "white",
+              background = val_status_color(status$`Validation Status`)) %>% 
+  pack_rows("Result", 1, 3) %>% 
+  pack_rows("Batch", 4, 6) %>% 
+  pack_rows("Sample", 7, 9)
+```
+
+# Data {.tabset}
+
+## Lab Report
+
+`r if ("htm" %in% names(validated)) validated$htm else "No Lab Error Summary Report Provided by ALS."`
+
+## Result {#Result-main .tabset .tabset-pills}
+
+```{r result-names}
+gen_subsection(x = validated$result,
+               section = "names",
+               header = "Column Names {#result-names}")
+```
+
+```{r result-types}
+gen_subsection(x = validated$result,
+               section = "classes",
+               header = "Column types {#result-types}")
+```
+
+```{r result-expected-values}
+gen_subsection(x = validated$result,
+               section = "expected_values",
+               header = "Expected Values {#result-expected}")
+```
+
+
+## Batch {#batch-main .tabset .tabset-pills}
+
+```{r batch-names}
+gen_subsection(x = validated$batch,
+               section = "names",
+               header = "Column Names {#batch-names}")
+```
+
+```{r batch-types}
+gen_subsection(x = validated$batch,
+               section = "classes",
+               header = "Column types {#batch-types}")
+```
+
+```{r batch-expected-values}
+gen_subsection(x = validated$batch,
+               section = "expected_values",
+               header = "Expected Values {#batch-expected}")
+```
+
+## Sample {#sample-main .tabset .tabset-pills}
+
+```{r sample-names}
+gen_subsection(x = validated$sample,
+               section = "names",
+               header = "Column Names {#sample-names}")
+```
+
+```{r sample-types}
+gen_subsection(x = validated$sample,
+               section = "classes",
+               header = "Column types {#sample-types}")
+```
+
+```{r sample-expected-values}
+gen_subsection(x = validated$sample,
+               section = "expected_values",
+               header = "Expected Values {#sample-expected}")
+```
+
+```{r export-json, eval=FALSE}
+als_final <- list()
+
+for (i in c("result", "batch", "sample")) {
+  als_final[[i]] <- validated[[i]]$post
+}
+
+if ("htm" %in% names(validated)) als_final$htm <- validated$htm
+
+export_json(
+    x = als_final,
+    path = params$filepath,
+    filename = paste0("processed_", params$filename)
+  )
+```
