@@ -33,7 +33,7 @@ read_als <- function(zip_path) {
 as_als <- function(x) {
   stopifnot(is.list(x),
             length(x) %in% c(3, 4))
-  x <- structure(x, class = "ALS")
+  x <- structure(x, class = c("ALS", "list"))
   als_substructure(x = x)
 }
 
