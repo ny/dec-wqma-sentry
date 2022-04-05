@@ -4,4 +4,4 @@ extracted_list <- Sentry::read_als(zip_path = here::here("inst",
                                                          "R2004299.zip"))
 
 flattened_als_df <- Sentry::flatten_als(x = extracted_list)
-usethis::use_data(flattened_als_df , overwrite = TRUE)
+usethis::use_data(flattened_als_df, overwrite = TRUE)
