@@ -65,7 +65,7 @@ test_that("read_als", {
         "method_detection_limit",
         "reporting_detection_limit",
         "quantitation_limit",
-        "Result_unit",
+        "result_unit",
         "detection_limit_unit",
         "tic_retention_time",
         "minimum_detectable_conc",
@@ -151,4 +151,18 @@ test_that("read_als", {
     )
   }
 
+
+# Expect Error when a zip file is not supplied. ---------------------------
+
+  expect_error(
+    read_als(zip_path = here::here("inst",
+                                   "example_zips",
+                                   "dummy_xlsx.xlsx")),
+    paste0("\nExpected File Extension: zip \n",
+           'Supplied File Extension: xlsx')
+  )
+
+
 })
+
+

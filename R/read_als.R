@@ -6,6 +6,14 @@
 #' @export
 
 read_als <- function(zip_path) {
+  # Get file extension.
+  ext <- tools::file_ext(zip_path)
+  # Error out if the supplied file is not a zip file.
+  if (ext != "zip") {
+    stop(paste0("\nExpected File Extension: zip \n",
+           'Supplied File Extension: ',
+           ext))
+  }
   # Store zip contents in a list --------------------------------------------
   zip_list <- zipper::read_zip(.zip_path = zip_path)
   # Create a structured list and fill it with the appropriate files imported
