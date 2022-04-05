@@ -33,7 +33,7 @@ directory to store the output.
 
 ``` r
 (output_dir <- tempdir())
-#> [1] "C:\\Users\\zmsmith.000\\AppData\\Local\\Temp\\RtmpaemxkD"
+#> [1] "C:\\Users\\zmsmith.000\\AppData\\Local\\Temp\\Rtmpm63aAn"
 ```
 
 ## Single Zip File
@@ -58,7 +58,7 @@ export_json(
 
 ## Multiple Zip Files
 
-Create a vector that contains the filepaths of all of the data files of
+Create a vector that contains the file paths of all of the data files of
 interest.
 
 ``` r

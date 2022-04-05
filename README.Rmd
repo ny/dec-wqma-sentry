@@ -62,7 +62,7 @@ export_json(
 
 ## Multiple Zip Files
 
-Create a vector that contains the filepaths of all of the data files of interest.
+Create a vector that contains the file paths of all of the data files of interest.
 ```{r}
 file_vec <- list.files(
   path = here::here("inst",
