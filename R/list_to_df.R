@@ -1,3 +1,16 @@
+
+#' Convert a list to a data frame based on special class
+#'
+#' @param x a list.
+#'
+#' @return a data frame.
+#' @export
+
+list_to_df <- function(x) {
+  UseMethod("list_to_df", x)
+}
+
+
 #' Flatten ALS Objects into a Single Data Frame.
 #'
 #' @param x an ALS object.
@@ -5,10 +18,7 @@
 #' @return a data frame.
 #' @export
 
-flatten_als <- function(x) {
-  stopifnot(
-    "x must be class 'ALS'." = "ALS" %in% class(x)
-  )
+list_to_df.ALS <- function(x) {
 
   init_join <- merge(
     x = x$sample,

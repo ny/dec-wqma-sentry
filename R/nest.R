@@ -12,17 +12,26 @@ nest_sdg_ssc <- function(x) {
   stopifnot(
     "x must be a data frame" = is.data.frame(x),
     'x is must contain the column name: "sample_delivery_group"' = sdg_check,
-    'x is must contain the column name: "sys_sample_code"' = ssc_check
+    'x is must contain the column name: "sys_sample_code"' = ssc_check,
+    "sample_delivery_group must be unique." = length(unique(x$sample_delivery_group)) == 1
   )
+
   # List of each SDG.
   sdg_list <- split(x = x,
                     f = x$sample_delivery_group)
+
   # List of each sys_sample_code.
-  lapply(
+  ssc_list <- lapply(
     sdg_list,
     FUN = function(sdg_i) {
       split(x = sdg_i,
             f = sdg_i$sys_sample_code)
     }
   )
+
+  ssc_list[[1]] <- list(
+    data = ssc_list[[1]],
+    reports = list())
+
+  return(ssc_list)
 }
