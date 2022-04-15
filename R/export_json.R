@@ -14,7 +14,7 @@ export_json <- function(x, path, filename) {
   }
   # Write JSON object.
   jsonlite::write_json(
-    x = x,
+    x = jsonlite::serializeJSON(x),
     path = file.path(
       path,
       filename
