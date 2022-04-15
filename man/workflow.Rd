@@ -7,10 +7,14 @@
 workflow(x, filepath, filename)
 }
 \arguments{
-\item{filename}{}
+\item{x}{a list with a secondary class, such as ALS.}
+
+\item{filepath}{a file path.}
+
+\item{filename}{a string.}
 }
 \value{
-
+a list.
 }
 \description{
 Workflow

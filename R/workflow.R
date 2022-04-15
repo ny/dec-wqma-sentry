@@ -1,11 +1,11 @@
 
 #' Workflow
 #'
-#' @param x
-#' @param filepath
-#' @param filename
+#' @param x a list with a secondary class, such as ALS.
+#' @param filepath a file path.
+#' @param filename a string.
 #'
-#' @return
+#' @return a list.
 #' @export
 
 workflow <- function(x, filepath, filename) {
@@ -13,8 +13,9 @@ workflow <- function(x, filepath, filename) {
 }
 
 #' @export
-workflow.ALS <- function(x, filepath, filename) {
-
+workflow.ALS <- function(x, filepath = NULL, filename) {
+  # Create a temporary directory to store the HTML report.
+  #
   temp_path <- tempdir()
   on.exit(unlink(temp_path))
 
@@ -24,14 +25,23 @@ workflow.ALS <- function(x, filepath, filename) {
     filename = filename
   )
 
-  class(x) <- "list"
-  final_obj <- list(
-    "data" = x,
-    "validation_report" = read_html(
-      filepath = file.path(temp_path,
-                           paste0(Sys.Date(), "_",
-                                  filename, ".html"))
-    )
+  # class(x) <- "list"
+  # final_obj <- list(
+  #   "data" = as_als(x),
+  #   "validation_report" = read_html(
+  #     filepath = file.path(temp_path,
+  #                          paste0(filename,
+  #                                 "_validation-report.html"))
+  #   )
+  # )
+
+  flattened <- list_to_df(x = x)
+  nested <- nest_sdg_ssc(x = flattened)
+
+  nested[[1]]$reports$validation <- read_html(
+    filepath = file.path(temp_path,
+                         paste0(filename,
+                                "_validation-report.html"))
   )
 
   # export_json(
@@ -39,4 +49,5 @@ workflow.ALS <- function(x, filepath, filename) {
   #   path = filepath,
   #   filename = filename
   # )
+  return(nested)
 }
