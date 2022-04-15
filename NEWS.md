@@ -1,4 +1,4 @@
-# Sentry (development version)
+# Sentry 0.0.1
 
 # sentry 0.0.0.9000
 
