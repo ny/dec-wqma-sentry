@@ -8,19 +8,23 @@ test_that("read_als", {
                                             "example_zips",
                                             "R2005223.zip"))
 
+  r2201459 <- read_als(zip_path = here::here("inst",
+                                             "example_zips",
+                                             "R2201459-sub.zip"))
+
   # Expected list element names
-  for (i in list(r2004299, r2005223)) {
+  for (i in list(r2004299, r2005223, r2201459 )) {
     expect_type(i, type = "list")
   }
 
   # Expected list element names
-  for (i in list(r2004299, r2005223)) {
+  for (i in list(r2004299, r2005223, r2201459)) {
     expect_equal(names(i), c('result', 'batch', 'sample', 'htm'))
   }
 
 # Expected result names ---------------------------------------------------
 
-  for (i in list(r2004299, r2005223)) {
+  for (i in list(r2004299, r2005223, r2201459)) {
     expect_equal(
       names(i[["result"]]),
       c(
@@ -96,7 +100,7 @@ test_that("read_als", {
 
 # Expected batch names ----------------------------------------------------
 
-  for (i in list(r2004299, r2005223)) {
+  for (i in list(r2004299, r2005223, r2201459)) {
     expect_equal(
       names(i[["batch"]]),
       c(
@@ -114,7 +118,7 @@ test_that("read_als", {
 
 # Expected sample names ---------------------------------------------------
 
-  for (i in list(r2004299, r2005223)) {
+  for (i in list(r2004299, r2005223, r2201459)) {
     expect_equal(
       names(i[["sample"]]),
       c(

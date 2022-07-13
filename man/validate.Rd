@@ -9,9 +9,6 @@ validate(x, actions)
 \arguments{
 \item{actions}{}
 }
-\value{
-
-}
 \description{
 Validate the Provided Data
 }

@@ -9,9 +9,6 @@ validate_class(x, schema, actions)
 \arguments{
 \item{actions}{}
 }
-\value{
-
-}
 \description{
 Title
 }

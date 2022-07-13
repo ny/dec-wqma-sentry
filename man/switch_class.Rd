@@ -11,9 +11,6 @@ switch_class(x, expected_class)
 
 \item{expected_class}{a character string.}
 }
-\value{
-
-}
 \description{
 Switch Class Based on Expected Class
 }

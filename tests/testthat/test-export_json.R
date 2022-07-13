@@ -33,7 +33,7 @@ test_that("export_json R2005223", {
   r2005223 <- read_als(zip_path = here::here("inst",
                                              "example_zips",
                                              "R2005223.zip"))
-  flattened <- flatten_als(x = r2005223)
+  flattened <- list_to_df(x = r2005223)
 
   nested <- nest_sdg_ssc(x = flattened)
 

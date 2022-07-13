@@ -15,9 +15,6 @@ gen_val_report(x, output_dir, filename, ...)
 
 \item{...}{additional arguments.}
 }
-\value{
-
-}
 \description{
 Generate a Validation Report
 }

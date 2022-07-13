@@ -94,6 +94,11 @@ status %>%
 
 `r if ("htm" %in% names(validated)) validated$htm else "No Lab Error Summary Report Provided by ALS."`
 
+<br/>
+<br/>
+<br/>
+<br/>
+
 ## Result {#Result-main .tabset .tabset-pills}
 
 ```{r result-names}

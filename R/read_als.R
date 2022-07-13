@@ -22,7 +22,7 @@ read_als <- function(zip_path) {
     result = get_element(zip_list, "[Rr]esult", clean_names = TRUE),
     batch = get_element(zip_list, "(?=.*Batch)(?=.*txt)", clean_names = TRUE),
     sample = get_element(zip_list, "[Ss]ample", clean_names = TRUE),
-    htm = get_element(zip_list, "\\.htm|\\.html")
+    htm = get_element(list = zip_list, pattern = "\\.htm|\\.html")
   )
   # Convert to class ALS.
   als <- as_als(x = raw_list)

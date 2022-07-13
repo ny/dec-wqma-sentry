@@ -9,9 +9,6 @@ trim_underscore(x)
 \arguments{
 \item{variables}{}
 }
-\value{
-
-}
 \description{
 Trim Leading and Trailing Underscores
 }

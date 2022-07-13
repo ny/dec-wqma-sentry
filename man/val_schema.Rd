@@ -9,9 +9,6 @@ val_schema(x)
 \arguments{
 \item{variables}{}
 }
-\value{
-
-}
 \description{
 Title
 }

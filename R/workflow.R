@@ -36,7 +36,7 @@ workflow.ALS <- function(x, filepath = NULL, filename) {
   # )
 
   flattened <- list_to_df(x = x)
-  nested <- nest_sdg_ssc(x = flattened)
+  nested <- nest_sdg(x = flattened)
 
   nested[[1]]$reports$validation <- read_html(
     filepath = file.path(temp_path,
@@ -45,7 +45,7 @@ workflow.ALS <- function(x, filepath = NULL, filename) {
   )
 
   # export_json(
-  #   x = final_obj,
+  #   x = nested,
   #   path = filepath,
   #   filename = filename
   # )

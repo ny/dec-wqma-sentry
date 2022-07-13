@@ -9,9 +9,6 @@ als_substructure(x)
 \arguments{
 \item{x}{an ALS object.}
 }
-\value{
-
-}
 \description{
 Assign New Classes to Each ALS Element
 }

@@ -9,9 +9,6 @@ read_html(filepath)
 \arguments{
 \item{filepath}{}
 }
-\value{
-
-}
 \description{
 Import an HTML file
 }

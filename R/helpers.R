@@ -33,7 +33,7 @@ get_element <- function(list, pattern, clean_names = FALSE) {
       paste0('"', pattern, '"')
     )
     # Return NULL early.
-    return(NULL)
+    return(NA_character_)
   }
   # Ensure that only one name was matched
   if (length(name_vec) > 1) {

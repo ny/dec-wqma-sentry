@@ -1,11 +1,11 @@
-#' Nest a Data Frame by SDG and sys_sample_code
+#' Nest a Data Frame by SDG
 #'
 #' @param x  a data frame.
 #'
 #' @return a list.
 #' @export
 
-nest_sdg_ssc <- function(x) {
+nest_sdg <- function(x) {
   sdg_check <- any(names(x) %in% "sample_delivery_group")
   ssc_check <- any(names(x) %in% "sys_sample_code")
 
@@ -17,20 +17,39 @@ nest_sdg_ssc <- function(x) {
   )
 
   # List of each SDG.
-  sdg_list <- split(x = x,
+  sdg_split <- split(x = x,
                     f = x$sample_delivery_group)
 
+  sdg_list <- list(
+    data = sdg_split,
+    reports = list())
+
+  return(sdg_list)
+}
+
+
+#' Nest a Data Frame by SDG and sys_sample_code
+#'
+#' @param x  a data frame.
+#'
+#' @return a list.
+#' @export
+
+nest_sdg_ssc <- function(x) {
+
+ sdg_list <- nest_sdg(x = x)
+
   # List of each sys_sample_code.
-  ssc_list <- lapply(
-    sdg_list,
+  ssc_split <- lapply(
+    sdg_list$data,
     FUN = function(sdg_i) {
       split(x = sdg_i,
             f = sdg_i$sys_sample_code)
     }
   )
 
-  ssc_list[[1]] <- list(
-    data = ssc_list[[1]],
+  ssc_list <- list(
+    data = ssc_split,
     reports = list())
 
   return(ssc_list)
