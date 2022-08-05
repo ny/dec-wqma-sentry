@@ -27,7 +27,8 @@ Imports:
     jsonlite,
     tools,
     knitr,
-    magrittr
+    magrittr,
+    kableExtra
 Remotes: 
     BWAM/zipper
 Config/testthat/edition: 3
