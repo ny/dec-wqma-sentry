@@ -14,7 +14,10 @@ export_json <- function(x, path, filename) {
   }
   # Write JSON object.
   jsonlite::write_json(
-    x = jsonlite::serializeJSON(x),
+    # Do not use toJSON or serializeJSON here.
+    # It will add a bunch of forward slashes as escape characters in the file
+    # produced.
+    x = x,
     path = file.path(
       path,
       filename
