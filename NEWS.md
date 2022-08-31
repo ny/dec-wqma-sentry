@@ -1,3 +1,5 @@
+# Sentry 0.2.0
+
 # Sentry 0.1.0
 
 * Added __kableExtra__ as a dependency. ITS identified error caused by the absence of this dependency.
