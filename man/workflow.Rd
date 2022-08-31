@@ -4,12 +4,10 @@
 \alias{workflow}
 \title{Workflow}
 \usage{
-workflow(x, filepath, filename)
+workflow(x, filename)
 }
 \arguments{
 \item{x}{a list with a secondary class, such as ALS.}
-
-\item{filepath}{a file path.}
 
 \item{filename}{a string.}
 }

@@ -7,7 +7,12 @@ test_that("ALS workflow", {
 
   als_wf <- workflow(
     x = r2004299,
-    filepath = temp_path,
+    filename = "R2004299"
+  )
+
+  export_json(
+    x =  als_wf,
+    path = temp_path,
     filename = "R2004299"
   )
 
