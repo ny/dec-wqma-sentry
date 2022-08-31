@@ -21,9 +21,15 @@ test_that("export_json R2004299", {
 
   raw_json <- jsonlite::fromJSON(file.path(temp_path, "temp_r2005223.json"),
                      simplifyVector = TRUE)
+
   expect_equal(
-    object = jsonlite::unserializeJSON(raw_json),
-    expected = nested
+    names(raw_json),
+    names(nested)
+  )
+
+  expect_equal(
+    names(raw_json$data[[1]]),
+    names(nested$data[[1]])
   )
 
 })
@@ -52,8 +58,13 @@ test_that("export_json R2005223", {
   raw_json <- jsonlite::fromJSON(file.path(temp_path, "temp_r2005223.json"),
                                  simplifyVector = TRUE)
   expect_equal(
-    object = jsonlite::unserializeJSON(raw_json),
-    expected = nested
+    names(raw_json),
+    names(nested)
+  )
+
+  expect_equal(
+    names(raw_json$data[[1]]),
+    names(nested$data[[1]])
   )
 
 })
