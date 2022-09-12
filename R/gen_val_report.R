@@ -12,20 +12,8 @@ gen_val_report <- function(x, output_dir, filename, ...) {
 }
 
 #' @export
-gen_val_report.ALS <- function(x, output_dir, filename) {
+gen_val_report.ALS_val <- function(x, output_dir, filename) {
 
-  validated <- lapply(
-    X = x,
-    validate,
-    actions = pointblank::action_levels(
-      warn_at = 0.1,
-      stop_at = 1,
-      fns = list(
-        warn = ~ pointblank::log4r_step(x),
-        stop = ~ pointblank::log4r_step(x)
-      )
-    )
-  )
   # Render a single report.
   rmarkdown::render(input = system.file("rmarkdown",
                                         "templates",
@@ -36,6 +24,6 @@ gen_val_report.ALS <- function(x, output_dir, filename) {
                     output_file = paste0(filename,
                                          "_validation-report"),
                     params = list(
-                      validated = validated
+                      validated = x
                     ))
 }

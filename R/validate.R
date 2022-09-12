@@ -45,6 +45,7 @@ validate.ALS <- function(x, actions) {
                                "name(s) missing from",
                                class_message
                                )
+    obj <- structure(obj, class = c("ALS_val", "list"))
     return(obj)
   }
 

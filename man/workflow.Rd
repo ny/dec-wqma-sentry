@@ -4,12 +4,14 @@
 \alias{workflow}
 \title{Workflow}
 \usage{
-workflow(x, filename)
+workflow(x, filename, gen_report = TRUE)
 }
 \arguments{
 \item{x}{a list with a secondary class, such as ALS.}
 
 \item{filename}{a string.}
+
+\item{gen_report}{a logical indicating if a report should be generated.}
 }
 \value{
 a list.
