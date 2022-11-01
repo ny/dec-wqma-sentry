@@ -27,3 +27,18 @@ gen_val_report.ALS_val <- function(x, output_dir, filename) {
                       validated = x
                     ))
 }
+
+#' Import HTML Report
+#'
+#' @inheritParams gen_val_report
+#'
+#' @return a character string representing an html document.
+#' @export
+
+get_html_report <- function(output_dir, filename) {
+  read_html(
+    filepath = file.path(output_dir,
+                         paste0(filename,
+                                "_validation-report.html"))
+  )
+}
