@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("Test report can be generated", {
   r2004299 <- read_als(zip_path = here::here("inst",
                                              "example_zips",
                                              "R2004299.zip"))
@@ -6,9 +6,10 @@ test_that("multiplication works", {
   temp_path <- tempdir()
   on.exit(unlink(temp_path))
 
-  gen_val_report(
+  wf <- workflow(
     x = r2004299,
-    output_dir = temp_path,
-    filename = "R20004299"
+    filename = "R2004299",
+    gen_report = TRUE
   )
+
 })

@@ -7,7 +7,8 @@ test_that("ALS workflow", {
 
   als_wf <- workflow(
     x = r2004299,
-    filename = "R2004299"
+    filename = "R2004299",
+    gen_report = TRUE
   )
 
   export_json(
@@ -36,8 +37,8 @@ test_that("ALS workflow: Missing Result Table", {
   )
 
   testthat::expect_equal(
-    wf$report$message,
-    "The ALS SDG, R2004299, did not pass the automated validation for the following reason(s): * 66 name(s) missing from Result Table."
+    wf$validation_summary$email_body,
+    "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Result Table was missing from the raw data."
   )
 
   testthat::expect_null(wf$data)
@@ -61,20 +62,20 @@ test_that("ALS workflow: Missing Batch Table", {
   )
 
   testthat::expect_equal(
-    wf$report$message,
-    "The ALS SDG, R2004299, did not pass the automated validation for the following reason(s): * 8 name(s) missing from Batch Table."
+    wf$validation_summary$email_body,
+    "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Batch Table was missing from the raw data."
   )
 
   testthat::expect_null(wf$data)
 
 })
 
-test_that("ALS workflow: Missing Sample Table", {
+test_that("ALS workflow: Handles all expected information missing", {
 
   no_sample <- read_als(zip_path = here::here("inst",
                                              "example_zips",
                                              "R2004299",
-                                             "no_sample.zip"))
+                                             "unexpected.zip"))
   temp_path <- tempdir()
   on.exit(unlink(temp_path))
 
@@ -85,10 +86,67 @@ test_that("ALS workflow: Missing Sample Table", {
   )
 
   testthat::expect_equal(
-    wf$report$message,
-    "The ALS SDG, R2004299, did not pass the automated validation for the following reason(s): * 29 name(s) missing from Sample Table."
+    wf$validation_summary$email_body,
+    "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Result Table was missing from the raw data. </br> 2) The Batch Table was missing from the raw data. </br> 3) The Sample Table was missing from the raw data."
   )
 
   testthat::expect_null(wf$data)
+
+})
+
+test_that("ALS workflow: No Tables", {
+
+  no_sample <- read_als(zip_path = here::here("inst",
+                                              "example_zips",
+                                              "R2004299",
+                                              "no_sample.zip"))
+  temp_path <- tempdir()
+  on.exit(unlink(temp_path))
+
+  wf <- workflow(
+    x = no_sample,
+    filename = "R2004299",
+    gen_report = FALSE
+  )
+
+  testthat::expect_equal(
+    wf$validation_summary$email_body,
+    "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Sample Table was missing from the raw data."
+  )
+
+  testthat::expect_null(wf$data)
+
+})
+
+test_that("ALS workflow: Multiple Failures", {
+  r2004299 <- read_als(zip_path = here::here("inst",
+                                             "example_zips",
+                                             "R2004299.zip"))
+  # Missing Columns
+  r2004299$result <- r2004299$result[1:10]
+  # Incorrect Types
+  r2004299$batch$fraction <- TRUE
+  suppressWarnings(
+    r2004299$batch$test_batch_id <- as.numeric(r2004299$batch$test_batch_id)
+  )
+  # Outside of expected range.
+  r2004299$sample$sample_date <- as.POSIXct("2060-01-01")
+  r2004299$sample$composite_yn <- "yes"
+
+
+
+  temp_path <- tempdir()
+  on.exit(unlink(temp_path))
+
+  wf <- workflow(
+    x = r2004299,
+    filename = "R2004299",
+    gen_report = FALSE
+  )
+
+  testthat::expect_equal(
+    wf$validation_summary$email_body,
+    "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) 56 name(s) missing from Result Table."
+  )
 
 })
