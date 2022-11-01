@@ -11,7 +11,7 @@ validate <- function(x, actions) {
 }
 
 #' @export
-validate.ALS <- function(x, actions) {
+validate.ALS <- function(x, actions = NULL) {
   if ("ALS_htm" %in% class(x)) return(x)
   obj <- list(
     raw = NULL,
@@ -23,8 +23,26 @@ validate.ALS <- function(x, actions) {
   )
   obj$raw <- x
   obj$post <- obj$raw
-  schema <- get_schema(x = x)
+  # Check to see if data are present.
+  obj$table_present <- !(nrow(x) == 0 | is.null(x))
+  # If data are absent, provide an error message and end early.
+  if (isFALSE(obj$table_present)) {
+    tar_class <- class(x)[!class(x) %in% c("data.frame", "ALS")]
+    obj_message <- switch(tar_class,
+                            "ALS_result" = "Result Table",
+                            "ALS_batch" = "Batch Table",
+                            "ALS_sample" = "Sample Table",
+                            stop("[Unknown Table]"))
+    obj$error_summary <- paste(
+      "The",
+      obj_message,
+      "was missing from the raw data."
+    )
+    obj <- structure(obj, class = c("ALS_val", "list"))
+    return(obj)
+  }
 
+  schema <- get_schema(x = x)
 
   obj$names <- validate_names(
     x = obj$raw,
@@ -78,6 +96,24 @@ validate.ALS <- function(x, actions) {
 return(obj)
 
 }
+
+validate_objects <- function(x, schema, actions) {
+  pointblank::create_agent(
+    data.frame(x),
+    actions = actions
+  ) %>%
+    pointblank::col_exists(x = ., columns = c(names(schema))) %>%
+    pointblank::interrogate(agent = .)
+}
+
+#' Title
+#'
+#' @param x
+#' @param schema
+#' @param actions
+#'
+#' @return
+#' @export
 
 validate_names <- function(x, schema, actions) {
   pointblank::create_agent(
