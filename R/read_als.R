@@ -20,7 +20,7 @@ read_als <- function(zip_path) {
   # from the zip This will not throw an error if an element is missing.
   raw_list <- list(
     result = get_element(zip_list, "[Rr]esult", clean_names = TRUE),
-    batch = get_element(zip_list, "(?=.*Batch)(?=.*txt)", clean_names = TRUE),
+    batch = get_element(zip_list, "[Bb]atch.*\\.(txt|csv)$", clean_names = TRUE),
     sample = get_element(zip_list, "[Ss]ample", clean_names = TRUE),
     htm = get_element(list = zip_list, pattern = "\\.htm|\\.html")
   )
