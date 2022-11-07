@@ -29,7 +29,8 @@ Imports:
     knitr,
     magrittr,
     kableExtra,
-    log4r
+    log4r,
+    rlang (>= 1.0.6)
 Remotes: 
     BWAM/zipper
 Config/testthat/edition: 3
