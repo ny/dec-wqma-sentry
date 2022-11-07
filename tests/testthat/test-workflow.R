@@ -119,9 +119,11 @@ test_that("ALS workflow: No Tables", {
 })
 
 test_that("ALS workflow: Multiple Failures", {
+
   r2004299 <- read_als(zip_path = here::here("inst",
                                              "example_zips",
-                                             "R2004299.zip"))
+                                             "R2004299",
+                                             "missing_cols_bad_values.zip"))
   # Missing Columns
   r2004299$result <- r2004299$result[1:10]
   # Incorrect Types
@@ -132,6 +134,35 @@ test_that("ALS workflow: Multiple Failures", {
   # Outside of expected range.
   r2004299$sample$sample_date <- as.POSIXct("2060-01-01")
   r2004299$sample$composite_yn <- "yes"
+
+  lapply(r2004299[1:3], function(x) {
+
+  })
+
+  write.csv(
+    x = r2004299$result,
+    file = here::here("inst",
+                      "example_zips",
+                      "mod_result.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    x = r2004299$batch,
+    file = here::here("inst",
+                      "example_zips",
+                      "mod_batch.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    x = r2004299$sample,
+    file = here::here("inst",
+                      "example_zips",
+                      "mod_sample.csv"),
+    row.names = FALSE
+  )
+
 
 
 
