@@ -25,34 +25,46 @@ val_summary <- function(kvp_element, kvp_value, email_address, filename, error_s
     status %in% c("pass", "fail")
   )
   summary_list <- list()
-  summary_list$key_value_pair_element <- kvp_element
-  summary_list$key_value_pair_value <- kvp_value
-  summary_list$status <- status
-  summary_list$email_address <- email_address
-  summary_list$email_subject <- paste0(
+  summary_list$key_value_pair_element <- jsonlite::unbox(kvp_element)
+  summary_list$key_value_pair_value <- jsonlite::unbox(kvp_value)
+  summary_list$status <- jsonlite::unbox(status)
+  if (length(email_address) == 1) {
+    summary_list$email_address <- jsonlite::unbox(email_address)
+  } else {
+    summary_list$email_address <- email_address
+  }
+  summary_list$email_subject <- jsonlite::unbox(
+    paste0(
     filename,
     ": ",
     tools::toTitleCase(status),
     "ed Validation"
+    )
   )
-  summary_list$email_body <- ifelse(
-    test = status == "pass",
-    yes = "<p> No validation issues identified. Data are now available in the WQMA database. </p>",
-    no =  paste("<p>",
-                paste0(filename, ","),
-                "did not pass the automated validation for the following reason(s):",
-                "</p>",
-                paste0(seq_along(error_summary), ") ",
-                       error_summary, collapse = " </br> "))
+  summary_list$email_body <- jsonlite::unbox(
+    ifelse(
+      test = status == "pass",
+      yes = "<p> No validation issues identified. Data are now available in the WQMA database. </p>",
+      no =  paste(
+        "<p>",
+        paste0(filename, ","),
+        "did not pass the automated validation for the following reason(s):",
+        "</p>",
+        paste0(seq_along(error_summary), ") ",
+               error_summary, collapse = " </br> ")
+      )
+    )
   )
 
   summary_list$email_attachment <- list(
-    report = report,
+    report = jsonlite::unbox(report),
     # If data fail validation, then provided staff with raw data to work
     # through the issue. If data passes validation, then data is available
     # in DB and there is no need to email raw data to staff.
     # This will be an indication to ITS of when to provide data in email.
-    raw_data = status == "fail"
+    raw_data = jsonlite::unbox(
+      status == "fail"
+    )
   )
 
   return(summary_list)
