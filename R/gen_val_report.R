@@ -36,9 +36,9 @@ gen_val_report.ALS_val <- function(x, output_dir, filename) {
 #' @export
 
 get_html_report <- function(output_dir, filename) {
-  read_html(
-    filepath = file.path(output_dir,
-                         paste0(filename,
-                                "_validation-report.html"))
-  )
+
+    htmltools::includeHTML(file.path(output_dir,
+                                   paste0(filename,
+                                          "_validation-report.html")))
+
 }
