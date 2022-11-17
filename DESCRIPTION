@@ -30,7 +30,8 @@ Imports:
     magrittr,
     kableExtra,
     log4r,
-    rlang (>= 1.0.6)
+    rlang (>= 1.0.6),
+    htmltools
 Remotes: 
     BWAM/zipper
 Config/testthat/edition: 3
