@@ -47,9 +47,9 @@ val_summary <- function(kvp_element, kvp_value, email_address, filename, error_s
       yes = "No validation issues identified. Data are now available in the WQMA database.",
       no =  paste(
         paste0(filename, ","),
-        "did not pass the automated validation for the following reason(s): <br/>",
+        "did not pass the automated validation for the following reason(s): \n",
         paste0(seq_along(error_summary), ") ",
-               error_summary, collapse = " <br/> ")
+               error_summary, collapse = " \n ")
       )
     )
     )
