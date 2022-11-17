@@ -44,17 +44,15 @@ val_summary <- function(kvp_element, kvp_value, email_address, filename, error_s
   summary_list$email_body <- jsonlite::unbox(
     ifelse(
       test = status == "pass",
-      yes = "<p> No validation issues identified. Data are now available in the WQMA database. </p>",
+      yes = "No validation issues identified. Data are now available in the WQMA database.",
       no =  paste(
-        "<p>",
         paste0(filename, ","),
-        "did not pass the automated validation for the following reason(s):",
-        "</p>",
+        "did not pass the automated validation for the following reason(s): <br/>",
         paste0(seq_along(error_summary), ") ",
-               error_summary, collapse = " </br> ")
+               error_summary, collapse = " <br/> ")
       )
     )
-  )
+    )
 
   summary_list$email_attachment <- list(
     report = jsonlite::unbox(report),

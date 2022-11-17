@@ -39,7 +39,7 @@ test_that("ALS workflow: Missing Result Table", {
   testthat::expect_equal(
     wf$validation_summary$email_body,
     jsonlite::unbox(
-      "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Result Table was missing from the raw data."
+      "R2004299, did not pass the automated validation for the following reason(s): <br/> 1) The Result Table was missing from the raw data."
     )
   )
 
@@ -66,7 +66,7 @@ test_that("ALS workflow: Missing Batch Table", {
   testthat::expect_equal(
     wf$validation_summary$email_body,
     jsonlite::unbox(
-      "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Batch Table was missing from the raw data."
+      "R2004299, did not pass the automated validation for the following reason(s): <br/> 1) The Batch Table was missing from the raw data."
     )
   )
 
@@ -76,7 +76,7 @@ test_that("ALS workflow: Missing Batch Table", {
 
 test_that("ALS workflow: Handles all expected information missing", {
 
-  no_sample <- read_als(zip_path = here::here("inst",
+  all_missing <- read_als(zip_path = here::here("inst",
                                              "example_zips",
                                              "R2004299",
                                              "unexpected.zip"))
@@ -84,7 +84,7 @@ test_that("ALS workflow: Handles all expected information missing", {
   on.exit(unlink(temp_path))
 
   wf <- workflow(
-    x = no_sample,
+    x = all_missing,
     filename = "R2004299",
     gen_report = FALSE
   )
@@ -92,7 +92,7 @@ test_that("ALS workflow: Handles all expected information missing", {
   testthat::expect_equal(
     wf$validation_summary$email_body,
     jsonlite::unbox(
-      "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Result Table was missing from the raw data. </br> 2) The Batch Table was missing from the raw data. </br> 3) The Sample Table was missing from the raw data."
+      "R2004299, did not pass the automated validation for the following reason(s): <br/> 1) The Result Table was missing from the raw data. <br/> 2) The Batch Table was missing from the raw data. <br/> 3) The Sample Table was missing from the raw data."
     )
     )
 
@@ -119,7 +119,7 @@ test_that("ALS workflow: No Tables", {
   testthat::expect_equal(
     wf$validation_summary$email_body,
     jsonlite::unbox(
-      "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) The Sample Table was missing from the raw data."
+      "R2004299, did not pass the automated validation for the following reason(s): <br/> 1) The Sample Table was missing from the raw data."
     )
 
   )
@@ -188,7 +188,7 @@ test_that("ALS workflow: Multiple Failures", {
   testthat::expect_equal(
     wf$validation_summary$email_body,
     jsonlite::unbox(
-      "<p> R2004299, did not pass the automated validation for the following reason(s): </p> 1) 56 name(s) missing from Result Table."
+      "R2004299, did not pass the automated validation for the following reason(s): <br/> 1) 56 name(s) missing from Result Table."
     )
   )
 
