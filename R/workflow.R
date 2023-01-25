@@ -46,7 +46,8 @@ workflow.ALS <- function(x, filename, gen_report = TRUE) {
     # Import the html doc as a character string.
     report <- get_html_report(
       output_dir = temp_path,
-      filename = filename
+      filename = paste0(filename,
+                        "_validation-report.html")
     )
   }
 
