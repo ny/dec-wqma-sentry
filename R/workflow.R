@@ -32,6 +32,8 @@ workflow.ALS <- function(x, filename, gen_report = TRUE) {
   )
 
   validated <- structure(validated, class = c("ALS_val", "list"))
+  # Prevents duplicate column names when sample is joined with result.
+  names(validated$sample$post$comment) <- "sample_comment"
 
   # Default value for report. Will be updated if gen_report == TRUE,
   report <- NULL
