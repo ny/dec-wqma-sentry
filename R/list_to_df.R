@@ -27,7 +27,7 @@ list_to_df.ALS <- function(x) {
     all = TRUE
   )
 
-  final_df <- merge(
+  second_join <- merge(
     x = init_join,
     y = x$batch,
     by = c(
@@ -40,6 +40,34 @@ list_to_df.ALS <- function(x) {
     ),
     all = TRUE
   )
+  # This is necessary for creating a common value to query on when this data is
+  # stored as individual JSON objects representing a row of this DF.
+  second_join$table <- "chemistry"
+
+  primary_cols_vec <- c(
+    "table",
+    "sys_sample_code",
+    "sample_date",
+    "fraction",
+    "chemical_name",
+    "cas_rn",
+    "result_value",
+    "result_unit",
+    "lab_qualifiers",
+    "validator_qualifiers",
+    "interpreted_qualifiers",
+    "method_detection_limit",
+    "reporting_detection_limit",
+    "detection_limit_unit",
+    "quantitation_limit",
+    "sample_source",
+    "sample_type_code",
+    "sample_delivery_group"
+  )
+
+  additional_cols_vec <- names(second_join)[!names(second_join) %in% primary_cols_vec]
+
+  final_df <- second_join[c(primary_cols_vec, additional_cols_vec)]
 
   return(final_df)
 }
