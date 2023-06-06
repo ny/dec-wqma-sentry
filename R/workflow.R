@@ -71,7 +71,12 @@ workflow.ALS <- function(x, filename, gen_report = TRUE) {
   )
 
   if (summary_list$status == "pass") {
-    final_data <- list_to_df(x = x)
+    flattened <- list_to_df(x = x)
+
+    final_data <- split(
+      x = flattened,
+      f = rownames(flattened)
+    )
   } else {
     final_data <- NULL
   }
