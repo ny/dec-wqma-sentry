@@ -19,11 +19,14 @@ list_to_df <- function(x) {
 #' @export
 
 list_to_df.ALS <- function(x) {
+  # Standardize the column name to match name of the same value in "sample".
+  names(x$result)[names(x$result) %in% "lab_sdg"] <- "sample_delivery_group"
 
   init_join <- merge(
     x = x$sample,
     y = x$result,
-    by = "sys_sample_code",
+    by = c("sys_sample_code",
+           "sample_delivery_group"),
     all = TRUE
   )
 
