@@ -6,6 +6,7 @@
 #' @export
 
 get_schema <- function(x) {
+  data("als_schema", package = "Sentry")
   UseMethod("get_schema", x)
 }
 
