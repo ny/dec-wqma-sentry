@@ -15,7 +15,7 @@ read_als <- function(zip_path) {
            ext))
   }
   # Store zip contents in a list --------------------------------------------
-  zip_list <- zipper::read_zip(.zip_path = zip_path)
+  zip_list <- read_zip(.zip_path = zip_path)
   # Create a structured list and fill it with the appropriate files imported
   # from the zip This will not throw an error if an element is missing.
   raw_list <- list(
@@ -77,4 +77,67 @@ als_substructure <- function(x) {
   }
 
   return(x)
+}
+
+#' Read & Combine Multiple ALS EDDs
+#'
+#' @param edd_filepaths multiple file paths to zip file provided by ALS.
+#'
+#' @return A single ALS object.
+#' @export
+
+read_comb_multi_als <- function(edd_filepaths) {
+  # Name the edd_filepath vector based on the file name, which is the EDD number.
+  names(edd_filepaths) <- tools::file_path_sans_ext(x = basename(path = edd_filepaths))
+  # Import all of the EDDs and store in a list.
+  # The names of the list items are based on the EDD number.
+  raw_list <- names(edd_filepaths) |>
+    purrr::set_names(x = _) |>
+    purrr::map(
+      .x = _,
+      .progress = TRUE,
+      .f = function(edd_i) {
+        # Get the full filepath based on the EDD name.
+        edd_path <- edd_filepaths[edd_i]
+        # Read in a single EDD.
+        raw_als <- Sentry::read_als(zip_path = edd_path)
+        # Standardize qc_rpd as a character value.
+        raw_als$result$qc_rpd <- as.character(raw_als$result$qc_rpd)
+        # Standard the fraction as a character value.
+        # When the fraction col is filled with "T",
+        # R imports this column as a logical and interprets "T" to mean TRUE.
+        # This switches the value back to the appropriate "T" value.
+        raw_als$result$fraction <- ifelse(
+          test = raw_als$result$fraction %in% "TRUE",
+          yes = "T",
+          no = raw_als$result$fraction
+        )
+        # Same operation as above.
+        raw_als$batch$fraction <- ifelse(
+          test = raw_als$batch$fraction %in% "TRUE",
+          yes = "T",
+          no = raw_als$batch$fraction
+        )
+        # Return a list object.
+        return(raw_als)
+      })
+
+  # Transpose the list object to represent results, sample, and batch.
+  raw_transposed <- purrr::transpose(raw_list)
+
+  # Each element (result, sample, and batch) in raw_transpose contain a list
+  # of outputs from each EDD. This opperation appends the list within each
+  # element into a single data frame. Ultimately, a list with 3-elements is
+  # produced: 1) Result, 2) Sample, and 3) batch. Where each element is a single
+  # data frame.
+  raw_combined <- list(
+    result = purrr::map_dfr(raw_transposed$result, data.frame),
+    sample = purrr::map_dfr(raw_transposed$sample, data.frame),
+    batch = purrr::map_dfr(raw_transposed$batch, data.frame)
+  )
+
+  # Assign the ALS class to the object.
+  raw_als <- Sentry::as_als(raw_combined)
+  # End of function. Export an ALS object.
+  return(raw_als)
 }

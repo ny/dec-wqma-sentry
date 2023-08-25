@@ -22,7 +22,6 @@ URL: https://github.com/BWAM/sentry
 BugReports: https://github.com/BWAM/sentry/issues
 Imports: 
     rmarkdown (>= 2.8),
-    zipper (>= 0.0.8),
     jsonlite,
     tools,
     knitr,
@@ -33,7 +32,6 @@ Imports:
     htmltools,
     pointblank (>= 0.11.2)
 Remotes: 
-    ny/zipper,
     rich-iannone/pointblank
 Config/testthat/edition: 3
 Depends: 
